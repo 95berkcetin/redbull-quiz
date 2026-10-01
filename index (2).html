@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Which Red Bull persona are you?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F6F6;--ink:#14143a;--muted:#555a78;--card:#ffffff;--line:#cfd2e6;--accent:#2022AF;--onaccent:#ffffff;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#0c0d2a;--ink:#f1f2ff;--muted:#a9adcc;--card:#16173f;--line:#33366e;--accent:#8b93ff;--onaccent:#0c0d2a}
+}
+:root[data-theme="dark"]{--bg:#0c0d2a;--ink:#f1f2ff;--muted:#a9adcc;--card:#16173f;--line:#33366e;--accent:#8b93ff;--onaccent:#0c0d2a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Serif',Georgia,'Times New Roman',serif;line-height:1.55;font-size:18px}
+main{max-width:560px;margin:0 auto;padding:28px 20px 40px}
+h1,h2,h3{font-family:'Anton','Impact','Arial Narrow',sans-serif;font-weight:400;line-height:1.05;margin:0}
+h1{font-size:clamp(44px,13vw,68px)}
+h2{font-size:clamp(30px,8.5vw,40px)}
+p{margin:0}
+.lead{margin-top:16px;color:var(--muted)}
+button{font:inherit;color:inherit;cursor:pointer}
+.btn{display:block;width:100%;min-height:56px;padding:14px 18px;border-radius:14px;border:2px solid var(--line);background:var(--card);text-align:left;font-size:18px;line-height:1.35}
+.btn:hover{border-color:var(--accent)}
+.btn:focus-visible,.go:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.go{margin-top:28px;min-height:56px;padding:14px 28px;border-radius:14px;border:0;background:#DB0A40;color:#fff;font-family:'Anton','Impact',sans-serif;font-size:24px;letter-spacing:.3px}
+.answers{display:grid;gap:12px;margin-top:26px}
+.bar{display:flex;gap:6px;margin-bottom:28px}
+.bar span{flex:1;height:8px;border-radius:4px;background:var(--line)}
+.bar span.on{background:var(--accent)}
+.hero-mark{display:flex;gap:6px;margin-bottom:22px}
+.hero-mark i{width:42px;height:10px;border-radius:5px;display:block}
+.small{font-size:14px;color:var(--muted);margin-top:36px}
+.result{border-radius:22px;padding:28px 22px 26px;color:#fff;margin:-4px -4px 0}
+.result h1{font-size:clamp(64px,22vw,110px)}
+.result .role{font-size:17px;opacity:.92;margin-top:6px}
+.result .tag{font-size:21px;margin-top:16px;line-height:1.35}
+.route{margin:26px 0 8px}
+.route svg{width:100%;height:auto;display:block;overflow:visible}
+.route .ln{fill:none;stroke:#fff;stroke-width:3.5;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.2s .3s ease-out forwards}
+.route .nd{fill:#fff;opacity:0;animation:pop .3s ease-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{to{opacity:1}}
+.stops{list-style:none;margin:6px 0 0;padding:0}
+.stops li{display:grid;grid-template-columns:112px 1fr;gap:10px;padding:10px 0;border-top:1px solid rgba(255,255,255,.35);font-size:16px}
+.stops b{font-weight:700}
+.move{margin-top:20px;padding:16px 18px;border-radius:14px;background:rgba(0,0,0,.22);font-size:17px}
+.tally{margin-top:30px;display:grid;gap:10px}
+.tally div{display:grid;grid-template-columns:70px 1fr 28px;gap:10px;align-items:center;font-size:16px}
+.tally em{display:block;height:12px;border-radius:6px;background:var(--line);overflow:hidden}
+.tally em i{display:block;height:100%}
+.again{margin-top:26px}
+@media (prefers-reduced-motion: reduce){
+  .route .ln{animation:none;stroke-dashoffset:0}
+  .route .nd{animation:none;opacity:1}
+}
+</style>
+</head>
+<body>
+<main id="app" aria-live="polite"></main>
+<script>
+var P={
+ E:{name:"Emma",role:"Driven med student, 22",color:"#DB0A40",tag:"You study hard, work hard, and sleep eventually.",
+  rows:[0,3,5,1,0],
+  path:[["Awareness","TikTok and Reels"],["Consideration","Asks the med group chat"],["Purchase","Fridge near campus"],["Experience","Study-with-me video"],["Advocacy","Shares a study clip"]],
+  move:"Red Bull's best move: be a trusted study partner. Relatable short-form content, fair prices for students, and Zero and Sugarfree for the caffeine-conscious."},
+ D:{name:"Dani",role:"Action sports fan, 24",color:"#2F6FE0",tag:"You can smell a fake ad from two blocks away.",
+  rows:[1,0,4,4,1],
+  path:[["Awareness","Athlete edit on YouTube"],["Consideration","Checks the athlete's own post"],["Purchase","Buys at the event"],["Experience","Watches it live"],["Advocacy","Follows the athletes"]],
+  move:"Red Bull's best move: act like a creator, not an advertiser. Athlete-led stories and live events win you over."},
+ M:{name:"Marco",role:"Gamer and streamer, 18",color:"#8A3FD6",tag:"Your sleep schedule and your phone battery have one thing in common: both are low.",
+  rows:[2,3,6,2,3],
+  path:[["Awareness","Streamer with the can on Twitch"],["Consideration","Asks Discord"],["Purchase","Streamer code on a delivery app"],["Experience","Ranked session"],["Advocacy","Community tournament"]],
+  move:"Red Bull's best move: streamers and community tournaments. Forced sponsored content gets spotted in seconds."},
+ I:{name:"Mia",role:"Busy young professional, 25",color:"#0E9C8E",tag:"Your calendar is fuller than your fridge.",
+  rows:[0,6,5,5,4],
+  path:[["Awareness","Fitness creator on Instagram"],["Consideration","Checks Zero online"],["Purchase","Gym fridge"],["Experience","Pre-workout"],["Advocacy","Festival with friends"]],
+  move:"Red Bull's best move: lead with Zero and Sugarfree, spoken through fitness and lifestyle creators."}
+};
+var Q=[
+ ["It's 11 p.m. and the to-do list is still alive. Where are you?",[["E","At my desk, surrounded by notes and highlighters"],["D","Outside, filming one more trick attempt"],["M","Headset on, one more ranked match"],["I","Just home from the gym, prepping tomorrow"]]],
+ ["Which app would your screen-time report expose?",[["E","TikTok or Reels"],["D","YouTube edits and event streams"],["M","Twitch and Discord"],["I","Instagram and Spotify"]]],
+ ["What makes you try something new?",[["E","My group chat said it works"],["D","Someone who actually does the thing uses it"],["M","A creator I trust shared a code"],["I","It fits my routine and the label looks right"]]],
+ ["Where do you grab a drink?",[["E","The fridge near campus or work"],["D","Right at the event"],["M","A delivery app, with a code, obviously"],["I","The gym fridge on the way out"]]],
+ ["What annoys you the most?",[["E","Prices that forget I'm a student"],["D","Ads that feel fake"],["M","Forced sponsored content"],["I","A 3 p.m. crash and sugar guilt"]]],
+ ["Pick a weekend plan.",[["E","Study first, then coffee with friends"],["D","A competition or a live event"],["M","A tournament with the squad"],["I","A festival with friends"]]]
+];
+var app=document.getElementById('app'),st;
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function start(){
+  st={i:0,s:{E:0,D:0,M:0,I:0},picks:[]};
+  app.innerHTML='<div class="hero-mark" aria-hidden="true"><i style="background:#DB0A40"></i><i style="background:#2F6FE0"></i><i style="background:#8A3FD6"></i><i style="background:#0E9C8E"></i></div>'+
+  '<h1>Which Red Bull persona are you?</h1>'+
+  '<p class="lead">Six quick questions. No wrong answers, just wings. At the end, we show the path you would take from first scroll to last share.</p>'+
+  '<button class="go" id="go">Start the quiz</button>'+
+  '<p class="small">Fictional personas from our Strategic Social Media class project. Illustrative, not research data.</p>';
+  document.getElementById('go').onclick=ask;
+  window.scrollTo(0,0);
+}
+function ask(){
+  var q=Q[st.i],bar='';
+  for(var k=0;k<Q.length;k++)bar+='<span class="'+(k<=st.i?'on':'')+'"></span>';
+  var h='<div class="bar" role="img" aria-label="Question '+(st.i+1)+' of '+Q.length+'">'+bar+'</div><h2>'+esc(q[0])+'</h2><div class="answers">';
+  shuffle(q[1]).forEach(function(a){h+='<button class="btn" data-k="'+a[0]+'">'+esc(a[1])+'</button>'});
+  app.innerHTML=h+'</div>';
+  Array.prototype.forEach.call(app.querySelectorAll('.btn'),function(b){b.onclick=function(){pick(b.getAttribute('data-k'))}});
+  window.scrollTo(0,0);
+}
+function pick(k){
+  st.s[k]++;st.picks.push(k);st.i++;
+  if(st.i<Q.length)ask();else finish();
+}
+function winner(){
+  var best=Math.max(st.s.E,st.s.D,st.s.M,st.s.I),tied=['E','D','M','I'].filter(function(k){return st.s[k]===best});
+  if(tied.length===1)return tied[0];
+  return tied.indexOf(st.picks[2])>-1?st.picks[2]:tied[0];
+}
+function route(p){
+  var d='',pts=[],i;
+  for(i=0;i<5;i++)pts.push([20+65*i,12+p.rows[i]*18]);
+  d='M'+pts[0][0]+' '+pts[0][1];
+  for(i=1;i<5;i++){var xm=(pts[i-1][0]+pts[i][0])/2;d+=' H'+xm+' V'+pts[i][1]+' H'+pts[i][0]}
+  var s='<svg viewBox="0 0 345 134" role="img" aria-label="Route across the five stages"><path class="ln" pathLength="1" d="'+d+'"/>';
+  for(i=0;i<5;i++)s+='<circle class="nd" style="animation-delay:'+(0.3+i*0.5)+'s" cx="'+pts[i][0]+'" cy="'+pts[i][1]+'" r="7"/>';
+  return s+'</svg>';
+}
+function finish(){
+  var w=winner(),p=P[w],h='<section class="result" style="background:'+p.color+'"><p class="role">You are</p><h1>'+p.name+'</h1><p class="role">'+p.role+'</p><p class="tag">'+esc(p.tag)+'</p>'+
+  '<div class="route">'+route(p)+'</div><ol class="stops" style="padding:0">';
+  p.path.forEach(function(x){h+='<li><b>'+x[0]+'</b><span>'+esc(x[1])+'</span></li>'});
+  h+='</ol><p class="move">'+esc(p.move)+'</p></section><div class="tally" aria-label="Your answers by persona">';
+  ['E','D','M','I'].forEach(function(k){h+='<div><span>'+P[k].name+'</span><em><i style="width:'+(st.s[k]/Q.length*100)+'%;background:'+P[k].color+'"></i></em><span>'+st.s[k]+'</span></div>'});
+  h+='</div><button class="go again" id="again">Play again</button><p class="small">Fictional personas from our Strategic Social Media class project. Illustrative, not research data.</p>';
+  app.innerHTML=h;document.getElementById('again').onclick=start;window.scrollTo(0,0);
+}
+start();
+</script>
+</body>
+</html>
